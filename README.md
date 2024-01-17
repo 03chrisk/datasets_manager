@@ -245,3 +245,66 @@ Remind to always make use of the OOP concepts explained in the course:
 
 The minimum score for the project is 1.0; the maximum is 10.0. A grade higher than this score will be clipped to 10.0.
   - As per course information, the project grade is worth 40% of the final grade for this course.
+
+
+
+
+# Report
+
+## Datasets
+
+In general, we set all the attributes and methods of the classes private that the users should not use and see. We consider the option of using setters and getters to access and change the values of the attributes cleaner and safer. This is because setting an attribute or method private indicates that it is "hidden" from the outside and reduces the chances of unintended interference. Overall, private attributes and methods hide internal details and help in managing the complexity thus encouraging the principles of encapsulation and abstraction.
+
+### Dataset Class
+
+Attributes of the class:
+- (private) root: string
+- (private) data_type: string
+- (private) loading_method: string
+- (private) data
+- (private) labels
+
+Methods: 
+- __init__
+- getters and (some) setters for the attributes
+- handle_load_method
+- abstract load_data
+- __getitem__
+- load_image
+- load_audio
+- get_extension_and_loader
+- __len__
+- split
+
+### TreeDataset Class
+
+Attributes of the class:
+- no additional attributes just inherits from parent class
+
+Methods:
+- __init__
+- load_data
+
+### JoinedDataset Class
+
+Attributes of the class:
+- inherits attributes of parent class and
+- (private) label_path
+- (private) load_labels
+
+Methods:
+- __init__
+- load_data
+- load_labels_from_csv
+
+## BatchLoader class
+
+Attributes of the class:
+
+Methods:
+
+## Data preprocessing
+
+### Image preprocessing
+
+### Audio preprocessing
