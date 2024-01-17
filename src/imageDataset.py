@@ -15,15 +15,15 @@ class JoinedDataset(Dataset):
         super().__init__(root, data_type, loading_method, data, labels)
 
         if self.load_labels and labels is None:
-            self.load_labels_from_csv()
+            self._load_labels_from_csv()
 
-    def load_data(self):
-        extension, load_method = self.get_extension_and_loader()
+    def _load_data(self):
+        extension, load_method = self._get_extension_and_loader()
 
         for filepath in glob.glob(os.path.join(self.root, extension)):
-            self.handle_load_method(load_method, filepath)
+            self._handle_load_method(load_method, filepath)
 
-    def load_labels_from_csv(self):
+    def _load_labels_from_csv(self):
         """
         Load labels from a CSV file.
         """
@@ -42,9 +42,9 @@ if __name__ == "__main__":
     print(len(image_dataset))
 
     # Display the image
-    #plt.imshow(image)
-    #plt.axis("off")  # Turn off axis numbers
-    #plt.show()
+    # plt.imshow(image)
+    # plt.axis("off")  # Turn off axis numbers
+    # plt.show()
 
     train, test = image_dataset.split(train_size=0.5)
     print(len(train), len(test))
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     print(len(lazy_image_dataset))
     image2 = lazy_image_dataset[0]
     print(image2)
-    #plt.imshow(image2)
-    #plt.axis("off")  # Turn off axis numbers
-    #plt.show()
+    # plt.imshow(image2)
+    # plt.axis("off")  # Turn off axis numbers
+    # plt.show()
     # Access and load an image lazily
