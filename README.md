@@ -279,7 +279,7 @@ Methods:
 ### TreeDataset Class
 
 Attributes of the class:
-- no additional attributes just inherits from parent class
+- no additional attributes other than the ones inherited from parent class
 
 Methods:
 - __init__
@@ -300,8 +300,16 @@ Methods:
 ## BatchLoader class
 
 Attributes of the class:
+- (private) dataset
+- (private) batch_size
+- (private) shuffle
+- (private) include_last_batch
 
 Methods:
+(only magic methods)
+- __init__
+- __iter__
+- __len__
 
 ## Data preprocessing
 
