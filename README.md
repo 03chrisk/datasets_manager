@@ -255,6 +255,8 @@ The minimum score for the project is 1.0; the maximum is 10.0. A grade higher th
 
 In general, we set all the attributes and methods of the classes private that the users should not use and see. We consider the option of using setters and getters to access and change the values of the attributes cleaner and safer. This is because setting an attribute or method private indicates that it is "hidden" from the outside and reduces the chances of unintended interference. Overall, private attributes and methods hide internal details and help in managing the complexity thus encouraging the principles of encapsulation and abstraction.
 
+After considering different factors we decided to implement the fisrt part of this project by using the following 3 classes: dataset class, treeDataset class and joinedDataset class. We decided not to create separate classes for image and ausio datasets as we soon reaslised that handling those two datatypes is not too different from one another thus we thought it is more fitting to not implement them as two separate classes to avoid copy pasting code. On the other hand, we also realised that the way datasets are stored might be more influential in our case. We decided to create separate classes for handling data which is stored in a single folder and for data that is stored in a folder hierarchy. There are of course still similarities of these two classes and that is why they both inherit from the dataset class. The main difference is the loading of the data from the different formats. 
+
 ### Dataset Class
 
 Attributes of the class:
@@ -312,6 +314,10 @@ Methods:
 - __len__
 
 ## Data preprocessing
+
+### PreprocessingABC
+
+This class is an abstract class which provides a common interface for the 4 preprocessing methods that we imelment as child classses of this abstract class. The class preprocessingABC only containes the __call__ megic method which is not implemented as it is also an abstract method. 
 
 ### Image preprocessing
 
