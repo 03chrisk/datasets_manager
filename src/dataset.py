@@ -12,6 +12,7 @@ class Dataset(ABC):
         self._loading_method = loading_method
         self._data = data if data is not None else []
         self._labels = labels if labels is not None else []
+        # perhaps have data and labels be tuples or use copies
 
         if data is None:
             self._load_data()

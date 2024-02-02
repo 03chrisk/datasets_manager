@@ -12,14 +12,13 @@ class TreeDataset(Dataset):
 
     def _load_data(self):
         extension, load_method = self._get_extension_and_loader()
-        if self.data is None or len(self.data) == 0:
-            for class_dir in os.listdir(self.root):
-                class_path = os.path.join(self.root, class_dir)
-                if os.path.isdir(class_path):
-                    for filepath in glob.glob(os.path.join(class_path,
-                                                           extension)):
-                        self._handle_load_method(load_method, filepath)
-                        self.labels.append(class_dir)
+        for class_dir in os.listdir(self.root):
+            class_path = os.path.join(self.root, class_dir)
+            if os.path.isdir(class_path):
+                for filepath in glob.glob(os.path.join(class_path,
+                                                        extension)):
+                    self._handle_load_method(load_method, filepath)
+                    self.labels.append(class_dir)
 
 
 if __name__ == "__main__":
