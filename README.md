@@ -255,28 +255,29 @@ The minimum score for the project is 1.0; the maximum is 10.0. A grade higher th
 
 In general, we set all the attributes and methods of the classes private that the users should not use and see. We consider the option of using setters and getters to access and change the values of the attributes cleaner and safer. This is because setting an attribute or method private indicates that it is "hidden" from the outside and reduces the chances of unintended interference. Overall, private attributes and methods hide internal details and help in managing the complexity thus encouraging the principles of encapsulation and abstraction.
 
-After considering different factors we decided to implement the fisrt part of this project by using the following 3 classes: dataset class, treeDataset class and joinedDataset class. We decided not to create separate classes for image and ausio datasets as we soon reaslised that handling those two datatypes is not too different from one another thus we thought it is more fitting to not implement them as two separate classes to avoid copy pasting code. On the other hand, we also realised that the way datasets are stored might be more influential in our case. We decided to create separate classes for handling data which is stored in a single folder and for data that is stored in a folder hierarchy. There are of course still similarities of these two classes and that is why they both inherit from the dataset class. The main difference is the loading of the data (and/or labels) from the different formats. 
+After considering different factors we decided to implement the fisrt part of this project by using the following 3 classes: dataset class (as base class), treeDataset class and joinedDataset class. We decided not to create separate classes for image and ausio datasets as we soon reaslised that handling those two datatypes is not too different from one another thus we thought it is more fitting to not implement them as two separate classes to avoid copy pasting code. On the other hand, we also realised that the way datasets are stored might be more influential in our case. We decided to create separate classes for handling data which is stored in a single folder and for data that is stored in a folder hierarchy. There are of course still similarities of these two classes and that is why they both inherit from the dataset class. The main difference is the loading of the data (and/or labels) from the different formats. 
 
 ### Dataset Class
 
 Attributes of the class:
-- (private) root: string
-- (private) data_type: string
-- (private) loading_method: string
-- (private) data
-- (private) labels
+- (private) root: string, identifies the root location where the data is stored on the disk
+- (private) data_type: string, identifies whether the dataset containes images or audio files
+- (private) loading_method: string, identifies loading method (eager, lazy)
+- (private) data: optional, if the user does not want to load data but directly give it
+- (private) labels: optional, if the user does not want to load data but directly give it
 
-Methods: 
+Methods: (we set the specified methods to private as they are only called in other methods thus the user deos not have to be able to call/access them)
 - __init__
-- getters and (some) setters for the attributes
-- handle_load_method
-- abstract load_data
+- getters for the attributes with property decorator
+- setters for data and labels
+- (private) load_data abstract method
+- (private) handle_load_method
 - __getitem__
-- load_image
-- load_audio
-- get_extension_and_loader
-- __len__
-- split
+- (private) load_image
+- (private) load_audio
+- (private) get_extension_and_loader
+- __len__ : returns number of datapoints in the dataset (as specified in assignment description)
+- split: public as we want the user to be able to use this method
 
 ### TreeDataset Class
 
@@ -285,19 +286,19 @@ Attributes of the class:
 
 Methods:
 - __init__
-- load_data
+- (private) load_data
 
 ### JoinedDataset Class
 
 Attributes of the class:
 - inherits attributes of parent class and
-- (private) label_path
-- (private) load_labels
+- (private) label_path: str, identifies the location where the label is stored
+- (private) load_labels: bool, identifies whether there is a need to load labesl or not
 
 Methods:
 - __init__
-- load_data
-- load_labels_from_csv
+- (private) load_data
+- (private) load_labels_from_csv
 
 ## BatchLoader class
 
