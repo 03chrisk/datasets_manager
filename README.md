@@ -272,11 +272,11 @@ Methods: (we set the specified methods to private as they are only called in oth
 - setters for data and labels
 - (private) load_data abstract method
 - (private) handle_load_method
-- __getitem__
+- __getitem__ (magic method)
 - (private) load_image
 - (private) load_audio
 - (private) get_extension_and_loader
-- __len__ : returns number of datapoints in the dataset (as specified in assignment description)
+- __len__ : (magic method) returns number of datapoints in the dataset (as specified in assignment description)
 - split: public as we want the user to be able to use this method
 
 ### TreeDataset Class
@@ -303,10 +303,10 @@ Methods:
 ## BatchLoader class
 
 Attributes of the class:
-- (private) dataset
-- (private) batch_size
-- (private) shuffle
-- (private) include_last_batch
+- (private) dataset: dataset (the class we created)
+- (private) batch_size: int, user can specify the size of the batches created
+- (private) shuffle: bool, identifies whether the order of the datapoints is shuffled or not
+- (private) include_last_batch: bool, the user can decide whether to include the last batch that might be of a different size
 
 Methods:
 (only magic methods)
@@ -318,8 +318,8 @@ Methods:
 
 ### PreprocessingABC
 
-This class is an abstract class which provides a common interface for the 4 preprocessing methods that we imelment as child classses of this abstract class. The class preprocessingABC only containes the __call__ megic method which is not implemented as it is also an abstract method. All child classes of the abstract class have to implement the call method. Thus the child classes centerCrop, randomCrop (image preprocessing), randomAudioCrop and resampling (audio preprocessing) all implement the call method and they also all have an __init__ method. 
+This class is an abstract class which provides a common interface  and describes the generic behaviour for the 4 preprocessing methods that we imelment as child classes of this abstract class. The class preprocessingABC only containes the __call__ megic method which is not implemented as it is also an abstract method. All child classes of the abstract class have to implement the call method. Thus the child classes centerCrop, randomCrop (image preprocessing), randomAudioCrop and resampling (audio preprocessing) all implement the call method and they also all have an __init__ method. As they have call methods, these classes are all callable classes. 
 
 ### Pipeline
 
-And lastly, the pipeline class is also a child class of the preprocessingABC and the main difference of this class compared to the other child classes is that the __init__ method takes a variadic argument as a parameter. This allows the pipeline to apply a number of preprocessing steps on the dataset, based on the user input. 
+And lastly, the pipeline class is also a child class of the preprocessingABC and the main difference of this class compared to the other child classes is that the __init__ method takes a variadic argument as a parameter (*steps). This allows the pipeline to apply a number of preprocessing steps on the dataset, based on the user input. 
