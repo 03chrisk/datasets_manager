@@ -20,6 +20,16 @@ class BatchLoader:
     """
     def __init__(self, dataset: Dataset, batch_size: int, shuffle: bool = True,
                  include_last_batch: bool = True) -> None:
+        if not isinstance(dataset, Dataset):
+            raise TypeError("dataset must be an instance of Dataset or its"
+                            "subclass")
+        if not isinstance(batch_size, int) or batch_size <= 0:
+            raise ValueError("batch_size must be a positive integer")
+        if not isinstance(shuffle, bool):
+            raise ValueError("shuffle must be a boolean")
+        if not isinstance(include_last_batch, bool):
+            raise ValueError("include_last_batch must be a boolean")
+
         self._dataset = dataset
         self._batch_size = batch_size
         self._shuffle = shuffle

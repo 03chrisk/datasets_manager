@@ -15,7 +15,11 @@ class JoinedDataset(Dataset):
                  labels: Optional[List[Any]] = None) -> None:
 
         self._label_path = os.path.join(os.path.dirname(root), "labels.csv")
+
+        if not isinstance(load_labels, bool):
+            raise ValueError("load labels should be True or False")
         self._load_labels = load_labels
+
         super().__init__(root, data_type, loading_method, data, labels)
 
         if self.load_labels and labels is None:

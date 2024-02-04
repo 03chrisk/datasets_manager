@@ -12,14 +12,24 @@ class Dataset(ABC):
                  data: Optional[List[Any]] = None,
                  labels: Optional[List[Any]] = None) -> None:
 
+        if not isinstance(root, str):
+            raise ValueError("root must be a string")
         self._root = root
+
         if data_type not in ["image", "audio"]:
             raise ValueError("data_type must be in 'image' or 'audio'")
         self._data_type = data_type
+
         if loading_method not in ["lazy", "eager"]:
             raise ValueError("loading_method must be 'lazy' or 'eager'")
         self._loading_method = loading_method
+
+        if data is not None and not isinstance(data, List):
+            raise TypeError("data must be a list if provided")
         self._data = data if data is not None else []
+
+        if labels is not None and not isinstance(labels, List):
+            raise TypeError("labels must be a list if provided")
         self._labels = labels if labels is not None else []
 
         if data is None:
@@ -76,6 +86,12 @@ class Dataset(ABC):
         Returns:
             None
         """
+        if not callable(load_method):
+            raise TypeError("load_method must be callable")
+
+        if not isinstance(filepath, str):
+            raise TypeError("filepath must be a string")
+
         if self.loading_method == "eager":
             data = load_method(filepath)
             self._data.append(data)
@@ -180,6 +196,9 @@ class Dataset(ABC):
             Tuple['Dataset', 'Dataset'] A tuple of two instances of the Dataset
             class
         """
+        if not (0 < train_size < 1):
+            raise ValueError("train_size must be a value between 0 and 1")
+
         combined = list(zip(self.data, self.labels))
         random.shuffle(combined)
         data_shuffled, labels_shuffled = zip(*combined)

@@ -12,7 +12,14 @@ import numpy as np
 
 class PreprocessingPipeline(PreprocessingTechniqueABC):
     def __init__(self, *steps: Callable) -> None:
-        self.steps = steps
+        if not all(isinstance(step,
+                              PreprocessingTechniqueABC) for step in steps):
+            raise ValueError("All steps must be callable")
+        self._steps = steps
+
+    @property
+    def steps(self):
+        return self._steps
 
     def __call__(self,
                  data: Image.Image | Tuple[np.ndarray, int]
