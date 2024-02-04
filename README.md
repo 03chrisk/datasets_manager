@@ -271,13 +271,15 @@ Methods: (we set the specified methods to private as they are only called in oth
 - getters for the attributes with property decorator
 - setters for data and labels
 - (private) load_data abstract method
-- (private) handle_load_method
+- (private) handle_load_method: to handle lazy or eager loading
 - __getitem__ (magic method)
 - (private) load_image
 - (private) load_audio
-- (private) get_extension_and_loader
+- (private) get_extension_and_loader: helper function to get extension and loader function based on the data type
 - __len__ : (magic method) returns number of datapoints in the dataset (as specified in assignment description)
 - split: public as we want the user to be able to use this method
+
+In the getter for the attribute data we return a copy of data as the data is stored in a list which is mutable so this is our way of making sure that the data is not altered by the user unintentionally. 
 
 ### TreeDataset Class
 
@@ -297,8 +299,10 @@ Attributes of the class:
 
 Methods:
 - __init__
+- getters and setters for the additional attributes (label_path, load_label) with property decorator
 - (private) load_data
 - (private) load_labels_from_csv
+- static (private) method numerical_sort_key: this method is static as it does not need to access any attributes or methods of the class. We added this method to provide a sorting key to load the files from the disk in numerical order. 
 
 ## BatchLoader class
 
@@ -309,10 +313,12 @@ Attributes of the class:
 - (private) include_last_batch: bool, the user can decide whether to include the last batch that might be of a different size
 
 Methods:
-(only magic methods)
+(magic methods and the getters and setters with property decorator)
 - __init__
 - __iter__
 - __len__
+- getters for the private attributes
+- setters for batch_size, shuffle and include_last_batch
 
 ## Data preprocessing
 
@@ -323,3 +329,5 @@ This class is an abstract class which provides a common interface  and describes
 ### Pipeline
 
 And lastly, the pipeline class is also a child class of the preprocessingABC and the main difference of this class compared to the other child classes is that the __init__ method takes a variadic argument as a parameter (*steps). This allows the pipeline to apply a number of preprocessing steps on the dataset, based on the user input. 
+
+A design choice we made for the preprocessing techniques is that when we call the preprocessing technique (or the pipeline) we only pass the image or the audio itselfe and not the labels. We instead separate the datapoint into data and label before the preprocessing as we only transform the data during those stepps thus passing the labels would be redundant. 
