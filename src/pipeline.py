@@ -1,22 +1,25 @@
 from preprocessingABC import PreprocessingTechniqueABC
 from randomAudioCrop import RandomAudioCrop
 from resampling import AudioResampling
+from centerCrop import CenterCrop
+from randomCrop import RandomCrop
 from joinedDataset import JoinedDataset
 import librosa
+from typing import Callable, Tuple
+from PIL import Image
+import numpy as np
 
 
 class PreprocessingPipeline(PreprocessingTechniqueABC):
-    def __init__(self, *steps):
+    def __init__(self, *steps: Callable) -> None:
         self.steps = steps
 
-    def __call__(self, data, sr=None):
+    def __call__(self,
+                 data: Image.Image | Tuple[np.ndarray, int]
+                 ) -> Image.Image | Tuple[np.ndarray, int]:
         for step in self.steps:
-            # Check if the preprocessing step requires a sampling rate
-            if 'sr' in step.__call__.__code__.co_varnames:
-                data, sr = step(data, sr)
-            else:
-                data = step(data)
-        return data if sr is None else (data, sr)
+            data = step(data)
+        return data
 
 
 if __name__ == "__main__":
@@ -32,6 +35,18 @@ if __name__ == "__main__":
     print(librosa.get_duration(y=audio[0], sr=audio[1]))
 
     for i in range(1):
-        new_data = pipeline(audio[0], audio[1])
+        new_data = pipeline(audio)
         print(new_data)
         print(librosa.get_duration(y=new_data[0], sr=new_data[1]))
+
+    path = r"datasets\image\regression\crowds"
+    datasett = JoinedDataset(root=path, data_type='image',
+                             loading_method="eager", load_labels=True)
+
+    random_crop = RandomCrop(19,19)
+    center_crop = CenterCrop(20,20)
+    pipe = PreprocessingPipeline(center_crop, random_crop)
+    point, label = datasett[0]
+    print(point)
+    new_point = pipe(point)
+    print(new_point)

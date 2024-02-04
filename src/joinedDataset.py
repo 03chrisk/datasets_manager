@@ -4,11 +4,18 @@ from dataset import Dataset
 import glob
 import matplotlib.pyplot as plt
 import csv
+from typing import Optional, List, Any
+import sounddevice as sd
+import re
 
 
 class JoinedDataset(Dataset):
-    def __init__(self, root, data_type, loading_method=None,
-                 load_labels=False, data=None, labels=None):
+    def __init__(self, root: str,
+                 data_type: str,
+                 loading_method: str,
+                 load_labels: bool = False,
+                 data: Optional[List[Any]] = None,
+                 labels: Optional[List[Any]] = None) -> None:
 
         self.label_path = os.path.join(os.path.dirname(root), "labels.csv")
         self.load_labels = load_labels
@@ -17,15 +24,28 @@ class JoinedDataset(Dataset):
         if self.load_labels and labels is None:
             self._load_labels_from_csv()
 
-    def _load_data(self):
+    @staticmethod
+    def numerical_sort_key(s):
+        """
+        A sorting key function that extracts numbers from a filename and
+        sorts according to the numerical value.
+        """
+        parts = re.findall(r'\d+', s)
+        return [int(part) for part in parts]
+
+    def _load_data(self) -> None:
+        """
+        Loads data from the disk stored in the root folder
+        """
         extension, load_method = self._get_extension_and_loader()
 
-        for filepath in glob.glob(os.path.join(self.root, extension)):
+        filepaths = glob.glob(os.path.join(self.root, extension))
+        for filepath in sorted(filepaths, key=self.numerical_sort_key):
             self._handle_load_method(load_method, filepath)
 
-    def _load_labels_from_csv(self):
+    def _load_labels_from_csv(self) -> None:
         """
-        Load labels from a CSV file.
+        Load labels from a CSV file
         """
         with open(self.label_path, newline="") as csvfile:
             reader = csv.reader(csvfile)
@@ -35,8 +55,10 @@ class JoinedDataset(Dataset):
 if __name__ == "__main__":
     path = r"datasets\audio\regression\audio"
     image_dataset = JoinedDataset(root=path, data_type='audio',
-                                  loading_method="eager", load_labels=True)
+                                  loading_method="lazy", load_labels=True)
     image, label = image_dataset[0]  # Get the first image
+    for i in range(20):
+        print(image_dataset.data[i])
 
     print(image, label)
     print(len(image_dataset))

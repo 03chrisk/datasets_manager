@@ -1,14 +1,15 @@
 from preprocessingABC import PreprocessingTechniqueABC
 from joinedDataset import JoinedDataset
 import matplotlib.pyplot as plt
+from PIL import Image
 
 
 class CenterCrop(PreprocessingTechniqueABC):
-    def __init__(self, width, height):
+    def __init__(self, width: int, height: int) -> None:
         self.height = height
         self.width = width
 
-    def __call__(self, image):
+    def __call__(self, image: Image) -> Image:
         w, h = image.size
 
         top = max(0, (h - self.height) // 2)
