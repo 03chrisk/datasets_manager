@@ -1,6 +1,5 @@
 import os
 import glob
-from PIL import Image
 from dataset import Dataset
 import matplotlib.pyplot as plt
 from typing import Optional, List, Any

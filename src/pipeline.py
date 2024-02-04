@@ -43,8 +43,8 @@ if __name__ == "__main__":
     datasett = JoinedDataset(root=path, data_type='image',
                              loading_method="eager", load_labels=True)
 
-    random_crop = RandomCrop(19,19)
-    center_crop = CenterCrop(20,20)
+    random_crop = RandomCrop(19, 19)
+    center_crop = CenterCrop(20, 20)
     pipe = PreprocessingPipeline(center_crop, random_crop)
     point, label = datasett[0]
     print(point)

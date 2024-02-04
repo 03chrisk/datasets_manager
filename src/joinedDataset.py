@@ -1,11 +1,8 @@
-from PIL import Image
 import os
 from dataset import Dataset
 import glob
-import matplotlib.pyplot as plt
 import csv
 from typing import Optional, List, Any
-import sounddevice as sd
 import re
 
 

@@ -1,7 +1,6 @@
 from preprocessingABC import PreprocessingTechniqueABC
 import numpy as np
 import matplotlib.pyplot as plt
-from joinedDataset import JoinedDataset
 from PIL import Image
 from treeDataset import TreeDataset
 
@@ -23,7 +22,7 @@ class RandomCrop(PreprocessingTechniqueABC):
 if __name__ == "__main__":
     pathh = r"datasets\image\classification"
     dataset = TreeDataset(root=pathh, data_type='image',
-                            loading_method="eager")
+                          loading_method="eager")
     print(dataset.data[0])
 
     plt.imshow(dataset.data[0])
