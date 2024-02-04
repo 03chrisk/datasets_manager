@@ -1,4 +1,4 @@
-from preprocessingABC import PreprocessingTechniqueABC
+from src.preprocessingABC import PreprocessingTechniqueABC
 import numpy as np
 from PIL import Image
 

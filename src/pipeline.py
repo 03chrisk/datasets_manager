@@ -1,4 +1,4 @@
-from preprocessingABC import PreprocessingTechniqueABC
+from src.preprocessingABC import PreprocessingTechniqueABC
 from typing import Callable, Tuple
 from PIL import Image
 import numpy as np

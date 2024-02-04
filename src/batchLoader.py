@@ -1,5 +1,5 @@
 import numpy as np
-from dataset import Dataset
+from src.dataset import Dataset
 from typing import Iterator
 
 
@@ -8,7 +8,7 @@ class BatchLoader:
     A class for loading batches of data from a dataset.
 
     Attributes:
-        _dataset (JoinedDataset): The dataset from which to load data.
+        _dataset (Dataset): The dataset from which to load data.
         _batch_size (int): The size of each batch.
         _shuffle (bool): Whether to shuffle the dataset before loading batches.
         _include_last_batch (bool): Whether to include the last batch if it's

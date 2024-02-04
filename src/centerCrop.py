@@ -1,4 +1,4 @@
-from preprocessingABC import PreprocessingTechniqueABC
+from src.preprocessingABC import PreprocessingTechniqueABC
 from PIL import Image
 
 
