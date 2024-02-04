@@ -250,6 +250,7 @@ The minimum score for the project is 1.0; the maximum is 10.0. A grade higher th
 
 
 # Report
+The work was split equally (50/50) as we worked on each section together, discussing our ideas and then implementing them together. 
 
 ## Datasets
 
