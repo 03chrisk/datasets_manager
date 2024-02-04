@@ -1,8 +1,6 @@
 from preprocessingABC import PreprocessingTechniqueABC
 import numpy as np
-import matplotlib.pyplot as plt
 from PIL import Image
-from treeDataset import TreeDataset
 
 
 class RandomCrop(PreprocessingTechniqueABC):
@@ -42,21 +40,3 @@ class RandomCrop(PreprocessingTechniqueABC):
         bottom = top + self.height
         right = left + self.width
         return image.crop((left, top, right, bottom))
-
-
-if __name__ == "__main__":
-    pathh = r"datasets\image\classification"
-    dataset = TreeDataset(root=pathh, data_type='image',
-                          loading_method="eager")
-    print(dataset.data[0])
-
-    plt.imshow(dataset.data[0])
-    plt.axis("off")  # Turn off axis numbers
-    plt.show()
-
-    randomcrop = RandomCrop(20, 20)
-    cropped = randomcrop(dataset.data[0])
-    print(cropped)
-    plt.imshow(cropped)
-    plt.axis("off")  # Turn off axis numbers
-    plt.show()

@@ -1,6 +1,4 @@
 from preprocessingABC import PreprocessingTechniqueABC
-from joinedDataset import JoinedDataset
-import matplotlib.pyplot as plt
 from PIL import Image
 
 
@@ -43,21 +41,3 @@ class CenterCrop(PreprocessingTechniqueABC):
         right = min(w, left + self.width)
 
         return image.crop((left, top, right, bottom))
-
-
-if __name__ == "__main__":
-    pathh = r"datasets\image\regression\crowds"
-    dataset = JoinedDataset(root=pathh, data_type='image',
-                            loading_method="eager", load_labels=False)
-    print(dataset.data[0])
-
-    plt.imshow(dataset.data[0])
-    plt.axis("off")  # Turn off axis numbers
-    plt.show()
-
-    centercrop = CenterCrop(100, 100)
-    cropped = centercrop(dataset.data[0])
-    print(cropped)
-    plt.imshow(cropped)
-    plt.axis("off")  # Turn off axis numbers
-    plt.show()

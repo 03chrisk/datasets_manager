@@ -42,7 +42,7 @@ class JoinedDataset(Dataset):
         self._load_labels = value
 
     @staticmethod
-    def numerical_sort_key(s):
+    def numerical_sort_key(s: str) -> List[int]:
         """
         A sorting key function that extracts numbers from a filename and
         sorts according to the numerical value.
@@ -79,34 +79,3 @@ class JoinedDataset(Dataset):
         with open(self.label_path, newline="") as csvfile:
             reader = csv.reader(csvfile)
             self.labels = [row[1] for row in reader]
-
-
-if __name__ == "__main__":
-    path = r"datasets\audio\regression\audio"
-    image_dataset = JoinedDataset(root=path, data_type='audio',
-                                  loading_method="lazy", load_labels=True)
-    image, label = image_dataset[0]  # Get the first image
-    for i in range(20):
-        print(image_dataset.data[i])
-
-    print(image, label)
-    print(len(image_dataset))
-
-    # Display the image
-    # plt.imshow(image)
-    # plt.axis("off")  # Turn off axis numbers
-    # plt.show()
-
-    train, test = image_dataset.split(train_size=0.5)
-    print(len(train), len(test))
-
-    lazy_image_dataset = JoinedDataset(
-        root=path, data_type='audio', loading_method="lazy", load_labels=False
-    )
-    print(len(lazy_image_dataset))
-    image2 = lazy_image_dataset[0]
-    print(image2)
-    # plt.imshow(image2)
-    # plt.axis("off")  # Turn off axis numbers
-    # plt.show()
-    # Access and load an image lazily

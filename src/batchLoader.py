@@ -1,10 +1,6 @@
 import numpy as np
 from dataset import Dataset
-from joinedDataset import JoinedDataset
 from typing import Iterator
-# from treeDataset import TreeDataset
-
-# maybe ask whether iterator needs a __next__()
 
 
 class BatchLoader:
@@ -110,20 +106,3 @@ class BatchLoader:
         if self.include_last_batch and dataset_size % self.batch_size != 0:
             return dataset_size // self.batch_size + 1
         return dataset_size // self.batch_size
-
-
-if __name__ == "__main__":
-    path = r"datasets\audio\regression\audio"
-    pathh = r"datasets\image\regression\crowds"
-    dataset = JoinedDataset(root=pathh, data_type='image',
-                            loading_method="eager", load_labels=False)
-
-    batch_loader = BatchLoader(dataset, batch_size=75, shuffle=False,
-                               include_last_batch=True)
-    print(len(batch_loader))
-
-    for batch in batch_loader:
-        print(len(batch))
-        print(batch[0].size)
-
-    print(f"Total number of batches: {len(batch_loader)}")

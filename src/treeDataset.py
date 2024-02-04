@@ -1,7 +1,6 @@
 import os
 import glob
 from dataset import Dataset
-import matplotlib.pyplot as plt
 from typing import Optional, List, Any
 
 
@@ -31,16 +30,3 @@ class TreeDataset(Dataset):
                                                        extension)):
                     self._handle_load_method(load_method, filepath)
                     self.labels.append(class_dir)
-
-
-if __name__ == "__main__":
-    path = r'datasets\image\classification'
-
-    dataset = TreeDataset(root=path, data_type='image', loading_method='eager')
-    print(len(dataset))
-    image, label = dataset[1]
-    print(type(image))
-    print(label)
-    plt.imshow(image)
-    plt.axis('off')  # Turn off axis numbers
-    plt.show()

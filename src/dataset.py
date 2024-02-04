@@ -3,14 +3,16 @@ import random
 import librosa
 from PIL import Image
 from typing import Optional, List, Any, Tuple, Callable
+import numpy as np
 
 
 class Dataset(ABC):
     def __init__(self, root: str,
                  data_type: str = "image",
                  loading_method: str = "lazy",
-                 data: Optional[List[Any]] = None,
-                 labels: Optional[List[Any]] = None) -> None:
+                 data: Optional[List[str | Image.Image | Tuple[np.ndarray,
+                                                               int]]] = None,
+                 labels: Optional[List[str | int]] = None) -> None:
 
         if not isinstance(root, str):
             raise ValueError("root must be a string")
@@ -56,7 +58,7 @@ class Dataset(ABC):
         self._data = value
 
     @property
-    def labels(self) -> List:
+    def labels(self) -> List[str | int]:
         return self._labels
 
     @labels.setter
@@ -98,7 +100,7 @@ class Dataset(ABC):
         elif self.loading_method == "lazy":
             self._data.append(filepath)
 
-    def __getitem__(self, index: int):
+    def __getitem__(self, index: int) -> Tuple[Any, Any]:
         """
         Retrieves the data sample at the specified index.
 
