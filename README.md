@@ -271,11 +271,11 @@ Methods: (we set the specified methods to private as they are only called in oth
 - getters for the attributes with property decorator
 - setters for data and labels
 - (private) load_data abstract method
-- (private) handle_load_method
+- (private) handle_load_method: to handle lazy or eager loading
 - __getitem__ (magic method)
 - (private) load_image
 - (private) load_audio
-- (private) get_extension_and_loader
+- (private) get_extension_and_loader: helper function to get extension and loader function based on the data type
 - __len__ : (magic method) returns number of datapoints in the dataset (as specified in assignment description)
 - split: public as we want the user to be able to use this method
 
@@ -299,6 +299,7 @@ Methods:
 - __init__
 - (private) load_data
 - (private) load_labels_from_csv
+- static (private) method numerical_sort_key: this method is static as it does not need to access any attributes or methods of the class. We added this method to provide a sorting key to load the files from the disk in numerical order. 
 
 ## BatchLoader class
 
