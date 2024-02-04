@@ -324,7 +324,7 @@ Methods:
 
 ### PreprocessingABC
 
-This class is an abstract class which provides a common interface  and describes the generic behaviour for the 4 preprocessing methods that we imelment as child classes of this abstract class. The class preprocessingABC only containes the __call__ megic method which is not implemented as it is also an abstract method. All child classes of the abstract class have to implement the call method. Thus the child classes centerCrop, randomCrop (image preprocessing), randomAudioCrop and resampling (audio preprocessing) all implement the call method and they also all have an __init__ method. As they have call methods, these classes are all callable classes. 
+This class is an abstract class which provides a common interface and describes the generic behaviour for the 4 preprocessing methods that we imelment as child classes of this abstract class. The class preprocessingABC only containes the __call__ megic method which is not implemented as it is also an abstract method. All child classes of the abstract class have to implement the call method. Thus the child classes centerCrop, randomCrop (image preprocessing), randomAudioCrop and resampling (audio preprocessing) all implement the call method and they also all have an __init__ method and the necessary getters. As they have call methods, these classes are all callable classes. 
 
 ### Pipeline
 
