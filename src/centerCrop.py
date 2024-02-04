@@ -10,6 +10,15 @@ class CenterCrop(PreprocessingTechniqueABC):
         self.width = width
 
     def __call__(self, image: Image) -> Image:
+        """
+        Performs center cropping on the input image.
+
+        Args:
+            image (PIL.Image.Image): The input image.
+
+        Returns:
+            PIL.Image.Image: The center-cropped image.
+        """
         w, h = image.size
 
         top = max(0, (h - self.height) // 2)

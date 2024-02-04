@@ -14,12 +14,28 @@ class JoinedDataset(Dataset):
                  data: Optional[List[Any]] = None,
                  labels: Optional[List[Any]] = None) -> None:
 
-        self.label_path = os.path.join(os.path.dirname(root), "labels.csv")
-        self.load_labels = load_labels
+        self._label_path = os.path.join(os.path.dirname(root), "labels.csv")
+        self._load_labels = load_labels
         super().__init__(root, data_type, loading_method, data, labels)
 
         if self.load_labels and labels is None:
             self._load_labels_from_csv()
+
+    @property
+    def label_path(self) -> str:
+        return self._label_path
+
+    @label_path.setter
+    def label_path(self, value: str) -> None:
+        self._label_path = value
+
+    @property
+    def load_labels(self) -> bool:
+        return self._load_labels
+
+    @load_labels.setter
+    def load_labels(self, value: bool) -> None:
+        self._load_labels = value
 
     @staticmethod
     def numerical_sort_key(s):
@@ -33,6 +49,12 @@ class JoinedDataset(Dataset):
     def _load_data(self) -> None:
         """
         Loads data from the disk stored in the root folder
+
+        Args:
+            None
+
+        Returns:
+            None
         """
         extension, load_method = self._get_extension_and_loader()
 
@@ -43,6 +65,12 @@ class JoinedDataset(Dataset):
     def _load_labels_from_csv(self) -> None:
         """
         Load labels from a CSV file
+
+        Args:
+            None
+
+        Returns:
+            None
         """
         with open(self.label_path, newline="") as csvfile:
             reader = csv.reader(csvfile)

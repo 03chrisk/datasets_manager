@@ -15,7 +15,13 @@ class TreeDataset(Dataset):
 
     def _load_data(self) -> None:
         """
-        Load data from disk in the root folder
+        Loads data from the disk stored in the root folder
+
+        Args:
+            None
+
+        Returns:
+            None
         """
         extension, load_method = self._get_extension_and_loader()
         for class_dir in os.listdir(self.root):

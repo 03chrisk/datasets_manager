@@ -11,6 +11,18 @@ class AudioResampling(PreprocessingTechniqueABC):
 
     def __call__(self, audio: Tuple[np.ndarray, int]) -> Tuple[np.ndarray,
                                                                int]:
+        """
+        Resamples the input audio data to the new sampling rate.
+
+        Args:
+            audio (Tuple[np.ndarray, int]): The input audio data.
+            tuple: A tuple containing the randomly cropped audio
+            segment and its sampling rate.
+
+        Returns:
+            tuple (Tuple[np.ndarray, int]): A tuple containing the randomly
+            cropped audio segment and its sampling rate.
+        """
         audio, sr = audio
         return (librosa.resample(audio,
                                  orig_sr=sr,

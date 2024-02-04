@@ -61,8 +61,13 @@ class BatchLoader:
 
     def __iter__(self) -> Iterator:
         """
-        Provides an iterator over batches of data from the dataset.
+        Returns an iterator to iterate over batches of data.
+        Args:
+            None
+        Returns:
+            iterator: An iterator over batches of data.
         """
+
         dataset_size = len(self.dataset)
         indices = np.arange(dataset_size)
 
@@ -84,6 +89,9 @@ class BatchLoader:
     def __len__(self) -> int:
         """
         Calculates the number of batches.
+
+        Args:
+            None
 
         Returns:
             int: The number of batches that will be produced by the iterator.

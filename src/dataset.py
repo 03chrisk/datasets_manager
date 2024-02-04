@@ -66,19 +66,12 @@ class Dataset(ABC):
     def _handle_load_method(self, load_method: Callable[[str], Any],
                             filepath: str) -> None:
         """
-        This method handles the loading method logic by carrying out either
-        lazy or eager loading depening on self.loading_method.
-
-        It also deals with reading images and audio files based on the
-        callable load_method argument.
+        Handles the loading of the data based on the loading method.
 
         Args:
-            load_method (Callable): is determined in
-            self._get_extension_and_loader and determines whether an
-            image or audio file is to be loaded
+            load_method (function): The method used to load data.
 
-            filepath (str): the string representing the filepath of the data
-            that is to be loaded
+            filepath (str): The file path to the data.
 
         Returns:
             None
@@ -91,11 +84,14 @@ class Dataset(ABC):
 
     def __getitem__(self, index: int):
         """
-        Argments:
-            index (int): the index of the item to be returned
+        Retrieves the data sample at the specified index.
+
+        Args:
+            index (int): The index of the data sample.
 
         Returns:
-            the datapoint and optionally the label at the specified index.
+            tuple or object: The data sample and its corresponding
+            label (if available).
         """
         _, loading_method = self._get_extension_and_loader()
         data = self.data[index]
@@ -108,13 +104,14 @@ class Dataset(ABC):
 
     def _load_image(self, filepath: str) -> Image:
         """
-        Logic for loading an image from a given filepath
+        Loads an image from the specified file path.
 
-        Arguments:
-            filepath (str): the filepath to the image to be loaded
+        Args:
+            filepath (str): The file path to the image.
 
         Returns:
-            The loaded image (Image)
+            PIL.Image.Image: The loaded image. If the loading fails,
+            returns None.
         """
         try:
             return Image.open(filepath).convert("RGB")
@@ -124,13 +121,16 @@ class Dataset(ABC):
 
     def _load_audio(self, filepath: str):
         """
-        Logic for loading audio from a given filepath
+        Loads audio data from the specified file path.
 
-        Arguments:
-            filepath (str): the filepath to the audio to be loaded
+        Args:
+            filepath (str): The file path to the audio data.
 
         Returns:
-            The loaded audio
+            tuple (np.ndarray, int): Tuple containing the audio time series
+            and its sampling rate.
+
+            If the loading fails, returns (None, None).
         """
         try:
             audio_ts, sr = librosa.load(filepath, sr=None)
@@ -144,7 +144,11 @@ class Dataset(ABC):
         Determine the file extension and whether to load an image or audio
         file based on the data type.
 
-        Returns a Tuple[str, Callable] of file extension and load method
+        Args:
+            None
+
+        Returns:
+            Tuple[str, Callable] of file extension and load method
         """
         if self.data_type == "image":
             return ("*.jpg", self._load_image)
@@ -155,17 +159,23 @@ class Dataset(ABC):
 
     def __len__(self) -> int:
         """
+        Args:
+            None
+
         Returns:
-            An int representing the length of the dataset
+            An int representing the length (number of datapoints) of the
+            dataset
         """
-        return len(self.data)
+        return len(self._data)
 
     def split(self, train_size: float = 0.8) -> Tuple['Dataset', 'Dataset']:
         """
         Split the dataset into training and test sets.
-        Arguments:
+
+        Args:
             train_size: The proportion of the dataset to include
             in the train split.
+
         Returns:
             Tuple['Dataset', 'Dataset'] A tuple of two instances of the Dataset
             class

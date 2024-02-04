@@ -11,6 +11,15 @@ class RandomCrop(PreprocessingTechniqueABC):
         self.width = width
 
     def __call__(self, image: Image) -> Image:
+        """
+        Performs random cropping on the input image.
+
+        Args:
+            image (PIL.Image.Image): The input image.
+
+        Returns:
+            PIL.Image.Image: The randomly cropped image.
+        """
         w, h = image.size
         top = np.random.randint(0, h - self.height + 1)
         left = np.random.randint(0, w - self.width + 1)

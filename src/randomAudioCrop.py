@@ -12,6 +12,19 @@ class RandomAudioCrop(PreprocessingTechniqueABC):
 
     def __call__(self, audio: Tuple[np.ndarray, int]) -> Tuple[np.ndarray,
                                                                int]:
+        """
+        Performs random cropping on the input audio.
+
+        Args:
+            audio (Tuple[np.ndarray, int]): The input audio data.
+            tuple: A tuple containing the randomly cropped audio
+            segment and its sampling rate.
+
+        Returns:
+            tuple (Tuple[np.ndarray, int]): A tuple containing the randomly
+            cropped audio segment and its sampling rate.
+        """
+
         audio_ts, sr = audio
         track_duration = librosa.get_duration(y=audio_ts, sr=sr)
         if track_duration <= self.duration:

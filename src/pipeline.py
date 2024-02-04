@@ -17,6 +17,15 @@ class PreprocessingPipeline(PreprocessingTechniqueABC):
     def __call__(self,
                  data: Image.Image | Tuple[np.ndarray, int]
                  ) -> Image.Image | Tuple[np.ndarray, int]:
+        """
+        Applies the preprocessing pipeline to the input data.
+
+        Args:
+            data: The input data to be preprocessed.
+
+        Returns:
+            Preprocessed data
+        """
         for step in self.steps:
             data = step(data)
         return data
