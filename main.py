@@ -16,6 +16,7 @@ import sounddevice as sd  # noqa: E402
 def main():
     audio_path = r"datasets\audio\regression\audio"
     image_path = r"datasets\image\classification"
+    image_reg_path = r"datasets\image\regression\crowds"
 
     image_dataset = TreeDataset(root=image_path,
                                 data_type='image',
@@ -29,6 +30,18 @@ def main():
                                   load_labels=True)
 
     print(f"The audio dataset has {len(audio_dataset)} datapoints")
+
+    image_reg_dataset = JoinedDataset(root=image_reg_path,
+                                      data_type='image',
+                                      loading_method='eager',
+                                      load_labels=False)
+
+    print(f"The image regression dataset has {len(image_reg_dataset)}"
+          " datapoints")
+    print(" ")
+
+    train, test = image_dataset.split(0.7)
+    print(f"train is {len(train)} points , and test is {len(test)}")
     print(" ")
 
     image_batch_loader = BatchLoader(image_dataset,
@@ -63,13 +76,15 @@ def main():
         for datapoint in batch:
             data, label = datapoint
             plt.imshow(data)
-            plt.axis("off")  # Turn off axis numbers
+            plt.axis("off")
             plt.show()
             data = image_pipeline(data)
             plt.imshow(data)
-            plt.axis("off")  # Turn off axis numbers
+            plt.axis("off")
             plt.show()
             break
+
+    input("you are about to hear a sound, press enter when you are ready")
 
     for i in range(3):
         data, label = audio_dataset[i]
@@ -77,6 +92,11 @@ def main():
         sd.play(newdata[0], newdata[1])
         sd.wait()
         print(f"played sound {i+1}, it was a {label}")
+
+    image_reg_datapoint = image_reg_dataset[0]
+    plt.imshow(image_reg_datapoint)
+    plt.axis("off")
+    plt.show()
 
 
 if __name__ == "__main__":

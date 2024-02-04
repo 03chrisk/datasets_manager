@@ -26,12 +26,7 @@ class Dataset(ABC):
             raise ValueError("loading_method must be 'lazy' or 'eager'")
         self._loading_method = loading_method
 
-        if data is not None and not isinstance(data, List):
-            raise TypeError("data must be a list if provided")
         self._data = data if data is not None else []
-
-        if labels is not None and not isinstance(labels, List):
-            raise TypeError("labels must be a list if provided")
         self._labels = labels if labels is not None else []
 
         if data is None:
