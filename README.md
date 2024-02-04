@@ -325,4 +325,4 @@ This class is an abstract class which provides a common interface  and describes
 
 And lastly, the pipeline class is also a child class of the preprocessingABC and the main difference of this class compared to the other child classes is that the __init__ method takes a variadic argument as a parameter (*steps). This allows the pipeline to apply a number of preprocessing steps on the dataset, based on the user input. 
 
-A design choice we made for the preprocessing techniques is that when we call the preprocessing technique (or the pipeline) we only pass the image or the audio itselfe and not the labels. We instead separate the datapoint into data and label before the preprocessing as we only transform the data during those steppes thus passing the labesl would be redundant. 
+A design choice we made for the preprocessing techniques is that when we call the preprocessing technique (or the pipeline) we only pass the image or the audio itselfe and not the labels. We instead separate the datapoint into data and label before the preprocessing as we only transform the data during those stepps thus passing the labels would be redundant. 
