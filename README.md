@@ -1,52 +1,14 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/7tKtmpw_)
-[![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-7f7980b617ed060a017424585567c406b6ee15c891e84e1186181d67ecf80aa0.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=13289509)
-# Object-Oriented Programming for AI 2023-24 - final project requirements
+# Object-Oriented Programming Dataset Manager Project
 
-In this final project, you will be required to implement a complex application in Python using the OOP concept explained in the course.
-The project will need to contain the following elements:
+The project contains the following elements:
 
 - An implementation of a hierarchy of classes to manage datasets, mainly with Machine Learning as an end goal.
 - A dataset wrapper, called `BatchLoader`, which handles the creation of batches of data for training a model.
 - A set of preprocessing tools for image and audio data.
 
-The deadline for the project is set on **Sunday February 4th, 2024 23:59 CET**, without exceptions.
+## Datasets
 
-This project is designed to be carried out in pairs.
-The way you split the load is up to you; however, you should ensure that both team members' load is approximately equal.
-
-The final product will need to be submitted as a **private** GitHub repository with the following structure:
-
-- A `report.md` file at the root of your folder. The readme is to function as a submission report and a documentation for the usage of your code.
-  - Here you should specify your implementation choices (e.g., why something has been implemented as a private/public attribute instead of a method argument, why you decided to create an intermediate class, why you chose to have an attribute public instead of private...).
-  - Also, at the beginning of the report, you should detail how the workload was split between the two members.
-- A `requirements.txt` file, listing all the dependencies of your project. This is to be formatted according to the [pip requirements file format](https://note.nkmk.me/en/python-pip-install-requirements/).
-- A folder `src` containing all of the code for your library.
-- A `main.py` file at the root of your folder. Here you should showcase an example of usage of your library.
-
-## Git instructions
-
-Please clone the project to your local machine (URL can be found under the green "Code" button):
-
-```bash
-git clone <URL>
-```
-
-If you want to push your changes to GitHub:
-
-```bash
-git add file.py         # to add one file
-git add src/            # to add everything under 'src/'
-git add .               # to add all changes
-git status              # to check what you are pushing
-git commit -m "this is a commit"
-git push
-```
-
-For any Git-related issues, please go to the pull request that is open and tag @oop-otoz with your question in the comments.
-
-## Datasets (3 pts.)
-
-You will need to implement a hierarchy of classes to manage datasets.
+We implement a hierarchy of classes to manage datasets.
 
 - [ ] The implementation will need to contain a base class, defining all the methods and attributes common to all the datasets.
 - [ ] Datasets should have two variants: one including both data and labels, the other including only the data (which can be used, e.g., for testing when there are no labels available).
@@ -80,22 +42,16 @@ You will need to implement a hierarchy of classes to manage datasets.
 
         Notice that, in this specific configuration, you don't need a file with labels, since the labels are already encoded in the folder hierarchy.
 
-        You should account for both of these configurations in your implementation.
-
 - [ ] The datasets should be able to load the data from the disk, both in a **lazy** and in an **eager** fashion. The eager implementation should **load all the data into memory at once**, while the lazy implementation should store only the data path and **load the data from the disk only when needed**.
       _Notice that this implementation does not necessarily need to be implemented with the usage of iterators or generators._
 
-- [ ] In all cases, the data should be accessed using the subsetting operator (e.g., `dataset[i]`), which should return (using the data structure you prefer) the data at the specified index. In the case of a dataset with labels, you should return both the data and the corresponding label. If the dataset has no labels, you should return only the data.
+- [ ] In all cases, the data should be accessed using the subsetting operator (e.g., `dataset[i]`), which should return (using the data structure you prefer) the data at the specified index. In the case of a dataset with labels, we return both the data and the corresponding label. If the dataset has no labels, we return only the data.
 
-- [ ] The datasets should have a method for **splitting** the data (and labels, if applicable) into training and test sets. The user should be able to split the data by specifying the percentage of data to be used for training. This functionality should return two datasets as output (i.e. `train` and `test`).
+- [ ] The datasets should have a method for **splitting** the data (and labels, if applicable) into training and test sets. The user is able to split the data by specifying the percentage of data to be used for training. This functionality returns two datasets as output (i.e. `train` and `test`).
 
-- [ ] You should create at least two datasets with these characteristics, one handling **images**, the other handling **audio files**.
+- [ ] We create at least two datasets with these characteristics, one handling **images**, the other handling **audio files**.
 
-  * For handling images, you can use one of many Python libraries for image processing, such as [Pillow](https://pillow.readthedocs.io/en/stable/) or [OpenCV](https://opencv.org/). Notice that OpenCV, while faster than Pillow, is using the BGR format for images, while Pillow is using the standard RGB format. You should be careful that images loaded into the datasets are in the RGB format.
-
-  * For handling audio files, you can use [Librosa](https://librosa.org/doc/latest/index.html), which is a Python library for audio processing. Notice that, for preprocessing reason, your data will be composed of a tuple (audio time series, sampling rate), which are the two fundamental inputs to Librosa preprocessing functions.
-
-### BatchLoader class (3 pts.)
+### BatchLoader class
 
 The BatchLoader will be constructed on top of a dataset, and will be responsible for creating batches of data for training a model using, e.g., Stochastic Gradient Descent.
 
@@ -115,13 +71,13 @@ The BatchLoader will be constructed on top of a dataset, and will be responsible
 
 - [ ] If passed as argument to the `len` method, the BatchLoader should return the number of batches that can be created from the dataset with the specific batch size.
 
-### Data preprocessing (3 pts.)
+### Data preprocessing
 
-In this step, you are required to prepare at least **four** data preprocessing techniques as **callable classes** using OOP principles.
+In this step, we prepare at least **four** data preprocessing techniques as **callable classes** using OOP principles.
 
-Have an ABC describing the generic behavior of the preprocessing tool.
+There is an ABC descirbing the generic behavior of the preprocessing tool.
 
-Define your preprocessing technique as a class:
+Define the preprocessing technique as a class:
 
 ```python
 class MyPreprocessingTechnique(PreprocessingTechniqueABC):
@@ -145,10 +101,6 @@ new_data = my_preproc_tech(old_data)
 
 #### Image preprocessing
 
-Pick at least 2 of these:
-
-For implementing these classes, use `opencv` (thus images will be represented by `numpy` arrays) or `Pilllow` (images can be representable by arrays by passing them to a `numpy.array` constructor).
-
 1. Center crop: given an input image of any size `H` × `W`, return a cropped image of size `height` × `width`, whereas the center coordinates of the original image and the cropped image coincide. If the specified `height` **and** `width` are greater than the original image, the crop is not performed. In case, e.g., `H>height`, but `W<width`, then the crop is performed only on the height dimension. Below is an example of a 200 × 200 px center crop. After identifying the coordinates of the crop, you should return the image inside the red rectangle.
 
 ![](img/ccrop.jpg)
@@ -171,8 +123,6 @@ For implementing these classes, use `opencv` (thus images will be represented by
 
 #### Audio preprocessing
 
-Pick at least 2 of these.
-
 1. Mel spectrogram: given an input audio track and a sampling rate, it should return a mel spectrogram of the given audio track. Mel spectrograms are a summary of the intensity of each frequency (on the mel scale, which is a human-perceptually meaningful sound frequency scale) of sound on each specific timestep of the audio track. Usually, they are used as input to Convolutional Neural Networks for audio data. You can see more info in [this video](https://www.youtube.com/watch?v=9GHCiiDLHQ4).
 
 ![](img/mel.png)
@@ -183,152 +133,10 @@ Pick at least 2 of these.
 
 #### Sequential application of preprocessing functions (pipeline)
 
-As a last step, you should create a preprocessing class which implements a sequential pipeline of preprocessing steps.
+As a last step, there is preprocessing class which implements a sequential pipeline of preprocessing steps.
 This class takes as input (in the constructor) a variable number of preprocessing steps and applies them sequentially in the order they were passed.
-Use the **variadic arguments** option to implement the constructor.
-This class should have the same structure as any other preprocessing class (i.e. a callable class).
-Be careful that the application of preprocessing steps may not be **commutative**: for instance, applying resampling on a Mel spectrogram will raise an error.
-
-## Main (1 pt.)
-
-In the main, you should showcase the usage of your library.
-
-Notice that, for images and audio, showing means actually plotting some sample images, while, for audio, it refers to playing some sample audio tracks.
-
-1. [ ] Create an image dataset and an audio dataset. Show how you can access your data. You may also plot some images using the `matplotlib.pyplot.imshow` method.
-
-- Showcase a dataset with and without labels.
-- Showcase a dataset for classification and regression.
-- Showcase a lazy and an eager dataloader
-- Build your datasets on top of whichever data you like (at least 100 data points); for the images, ensure that they have a size of at least 128 × 128 pixels.
-  - To look for datasets, you can use tools like [Kaggle](kaggle.com), [PapersWithCode](paperswithcode.com), [Google Datasets](https://datasetsearch.research.google.com/), and [the Irvine Machine Learning Repository](https://archive.ics.uci.edu/).
-  - You are even allowed to create your own dataset with the aforementioned requirements.
-  - Be careful about the labels: you want simple labels and you want to find examples of both regression and classification datasets:
-    - For images: object detection and segmentation are **not** image classification tasks; regression tasks can be, e.g., age estimation.
-    - For audio: be careful not to use datasets for speech-to-text or other Natural Language Processing-related tasks (the labels are more complicated in this case); regression tasks can be for example [tempo estimation](https://github.com/CPJKU/BallroomAnnotations/blob/master/README.md).
-
-2. [ ] Create a BatchLoader on top of two of these datasets (one for image, one for audio). Show its functionality with and without shuffling, with and without option to discard the last batch.
-3. [ ] Create a pipeline of preprocessing steps, one for audio, one for images:
-
-- Show how you can apply the pipeline on top of a BatchLoader output.
-  ```python
-  pipeline = ...
-  for batch in batchloader:
-    # apply the pipeline for the data in the batch
-  ```
-- Show how you can apply the pipeline on top of a Dataset samples
-  ```python
-  pipeline = ...
-  for i in range(5):
-    newdata = pipeline(dataset[i])
-  ```
+It uses the **variadic arguments** option to implement the constructor.
+This class has the same structure as any other preprocessing class (i.e. a callable class).
+Application of preprocessing steps may not be **commutative**: for instance, applying resampling on a Mel spectrogram will raise an error.
 
 
-# Generic indications
-
-Remind to always make use of the OOP concepts explained in the course:
-
-- [ ] Always implement encapsulation accordingly. All the attributes should be private, and the user should be able to access them only through getters and setters. The usage of the `@property` decorator is preferrable. Motivate any choice of public methods and attributes in the report.
-  - Remember type hints. Use the pipe operator `|` to concatenate multiple types. For collections, write inside brackets the expected type of elements (e.g., `List[int]`).
-  - Also, don't forget about the return types (even when `None`).
-- [ ] Make use of type checks. Code performing type checks should be better implemented as a private method, especially if repeated throughout the class.
-  - If you repeat code throughout different classes, you can either create an external class handling these tasks, or, if you have small utility functions (e.g., check int, convert something into something else) you can create a `util.py` script and put the functions there (outside the objects is fine as well); you may later access the functions as `from util import <utility_function>`
-- [ ] Make use of docstrings. Providing a documentation as HTML files (converted from the docstrings using software such as [sphinx](https://www.sphinx-doc.org/en/master/) or [napoleon](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/)) will provide a bouns of +0.5 points to the final score.
-- [ ] Take some moments for testing & refactoring. You don't need to use test-driven development for this project; nonetheless, you can still make use of specific tests to ensure that your code doesn't break when refactoring. Watch out for [code smells](https://refactoring.guru/refactoring/smells), especially bloaters [large class](https://refactoring.guru/smells/large-class) and [long method](https://refactoring.guru/smells/long-method).
-  - Smells like [duplicate code](https://refactoring.guru/smells/duplicate-code) and [ḍead code](https://refactoring.guru/smells/dead-code) are particularly bad since they (i) hinder readability and (ii) makes it easier to create bugs. These will be taken into account when grading
-  - Ignore the [Object-Orientation Abusers smell](https://refactoring.guru/refactoring/smells/oo-abusers) since this course is specifically focussed into OOP.
-- [ ] As previously mentioned, use your report to motivate your decisions, like usage of public attributes or methods, unusual/nonintuitive choices on type hints, decisions to use classes not indicated in the requirements, etc.
-- [ ] Attend the practicals for asking questions to the lecturers and the TAs.
-- [ ] Check your emails often for announcements. There is no excuse for not reading your RUG email.
-
-
-
-The minimum score for the project is 1.0; the maximum is 10.0. A grade higher than this score will be clipped to 10.0.
-  - As per course information, the project grade is worth 40% of the final grade for this course.
-
-
-
-
-# Report
-The work was split equally (50/50) as we worked on each section together, discussing our ideas and then implementing them together. 
-
-## Datasets
-
-In general, we set all the attributes and methods of the classes private that the users should not use and see. We consider the option of using setters and getters to access and change the values of the attributes cleaner and safer. This is because setting an attribute or method private indicates that it is "hidden" from the outside and reduces the chances of unintended interference. Overall, private attributes and methods hide internal details and help in managing the complexity thus encouraging the principles of encapsulation and abstraction.
-
-After considering different factors we decided to implement the fisrt part of this project by using the following 3 classes: dataset class (as base class), treeDataset class and joinedDataset class. We decided not to create separate classes for image and audio datasets as we soon reaslised that handling those two datatypes is not too different from one another thus we thought it is more fitting to not implement them as two separate classes to avoid copy pasting code. On the other hand, we also realised that the way datasets are stored might be more influential in our case. We decided to create separate classes for handling data which is stored in a single folder and for data that is stored in a folder hierarchy. There are of course still similarities of these two classes and that is why they both inherit from the dataset class. The main difference is the loading of the data (and/or labels) from the different formats. 
-
-### Dataset Class
-
-Attributes of the class:
-- (private) root: string, identifies the root location where the data is stored on the disk
-- (private) data_type: string, identifies whether the dataset containes images or audio files
-- (private) loading_method: string, identifies loading method (eager, lazy)
-- (private) data: optional, if the user does not want to load data but directly give it
-- (private) labels: optional, if the user does not want to load data but directly give it
-
-Methods: (we set the specified methods to private as they are only called in other methods thus the user deos not have to be able to call/access them)
-- __init__
-- getters for the attributes with property decorator
-- setters for data and labels
-- (private) load_data abstract method
-- (private) handle_load_method: to handle lazy or eager loading
-- __getitem__ (magic method)
-- (private) load_image
-- (private) load_audio
-- (private) get_extension_and_loader: helper function to get extension and loader function based on the data type
-- __len__ : (magic method) returns number of datapoints in the dataset (as specified in assignment description)
-- split: public as we want the user to be able to use this method
-
-In the getter for the attribute data we return a copy of data as the data is stored in a list which is mutable so this is our way of making sure that the data is not altered by the user unintentionally. 
-
-### TreeDataset Class
-
-Attributes of the class:
-- no additional attributes other than the ones inherited from parent class
-
-Methods:
-- __init__
-- (private) load_data
-
-### JoinedDataset Class
-
-Attributes of the class:
-- inherits attributes of parent class and
-- (private) label_path: str, identifies the location where the label is stored
-- (private) load_labels: bool, identifies whether there is a need to load labesl or not
-
-Methods:
-- __init__
-- getters and setters for the additional attributes (label_path, load_label) with property decorator
-- (private) load_data
-- (private) load_labels_from_csv
-- static (private) method numerical_sort_key: this method is static as it does not need to access any attributes or methods of the class. We added this method to provide a sorting key to load the files from the disk in numerical order. 
-
-## BatchLoader class
-
-Attributes of the class:
-- (private) dataset: dataset (the class we created)
-- (private) batch_size: int, user can specify the size of the batches created
-- (private) shuffle: bool, identifies whether the order of the datapoints is shuffled or not
-- (private) include_last_batch: bool, the user can decide whether to include the last batch that might be of a different size
-
-Methods:
-(magic methods and the getters and setters with property decorator)
-- __init__
-- __iter__
-- __len__
-- getters for the private attributes
-- setters for batch_size, shuffle and include_last_batch
-
-## Data preprocessing
-
-### PreprocessingABC
-
-This class is an abstract class which provides a common interface and describes the generic behaviour for the 4 preprocessing methods that we imelment as child classes of this abstract class. The class preprocessingABC only containes the __call__ megic method which is not implemented as it is also an abstract method. All child classes of the abstract class have to implement the call method. Thus the child classes centerCrop, randomCrop (image preprocessing), randomAudioCrop and resampling (audio preprocessing) all implement the call method and they also all have an __init__ method and the necessary getters. As they have call methods, these classes are all callable classes. 
-
-### Pipeline
-
-And lastly, the pipeline class is also a child class of the preprocessingABC and the main difference of this class compared to the other child classes is that the __init__ method takes a variadic argument as a parameter (*steps). This allows the pipeline to apply a number of preprocessing steps on the dataset, based on the user input. 
-
-A design choice we made for the preprocessing techniques is that when we call the preprocessing technique (or the pipeline) we only pass the image or the audio itselfe and not the labels. We instead separate the datapoint into data and label before the preprocessing as we only transform the data during those stepps thus passing the labels would be redundant. 
